@@ -17,9 +17,7 @@ public class TCPServer {
         byte [] message = new byte[numBytes];
 
         try {
-            System.out.println("Waiting for client on port " + server.getLocalPort());
             Socket connectionSocket = server.accept();
-            System.out.println("Accepted a new connection");
             DataInputStream input = new DataInputStream(connectionSocket.getInputStream());
 
             for (int i = 0; i < numBytes; i++) {
@@ -28,7 +26,6 @@ public class TCPServer {
 
             DataOutputStream output = new DataOutputStream(connectionSocket.getOutputStream());
             output.write(message);
-            System.out.println("Message echoed");
 
             server.close();
             connectionSocket.close();

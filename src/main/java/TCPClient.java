@@ -24,7 +24,6 @@ public class TCPClient {
         DataOutputStream output = new DataOutputStream(socket.getOutputStream());
 
         long start = System.nanoTime();
-        //output.write(message.length);
         output.write(message);
         DataInputStream input = new DataInputStream(socket.getInputStream());
         for (int i =0; i<message.length; i++) {
