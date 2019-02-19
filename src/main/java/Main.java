@@ -93,7 +93,7 @@ public class Main {
 
 
     public static long convertNanoToMs(long time) {
-        return TimeUnit.MILLISECONDS.convert(time, TimeUnit.NANOSECONDS);
+        return TimeUnit.MICROSECONDS.convert(time, TimeUnit.NANOSECONDS);
     }
 
 }
