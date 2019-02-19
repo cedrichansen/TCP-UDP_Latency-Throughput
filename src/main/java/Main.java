@@ -16,7 +16,7 @@ public class Main {
 
     public static void main (String [] args) {
         Scanner kb = new Scanner(System.in);
-        System.out.println("Type 1 for server, 2 for tcpClient");
+        System.out.println("Type 1 for server, 2 for client");
         int selection = Integer.parseInt(kb.nextLine());
 
         try {
@@ -101,7 +101,7 @@ public class Main {
         Arrays.fill(message, (byte)1);
         long RTT =udpClient.sendAndMeasureRTT(message);
         System.out.println(outputMessage +  " " + convertNanoToMs(RTT) + " microseconds");
-        
+
     }
 
 

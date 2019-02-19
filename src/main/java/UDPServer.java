@@ -21,6 +21,7 @@ public class UDPServer {
 
         DatagramPacket packet = new DatagramPacket(message, message.length);
 
+        socket = new DatagramSocket(port);
         socket.receive(packet);
 
         InetAddress address = packet.getAddress();
