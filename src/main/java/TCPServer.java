@@ -4,14 +4,16 @@ import java.net.*;
 public class TCPServer {
 
     ServerSocket server;
-    byte [] response;
+    int port;
 
 
     public TCPServer(int port) throws IOException {
-        server = new ServerSocket(port);
+        this.port = port;
     }
 
     public void startServer(int numBytes) throws IOException {
+
+        server = new ServerSocket(this.port);
         byte [] message = new byte[numBytes];
 
         try {
