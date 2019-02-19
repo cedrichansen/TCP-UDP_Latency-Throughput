@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -10,11 +9,14 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-    static TCPClient client;
+
+    final static int port = 2689;
+    static TCPClient tcpClient;
+    static UDPClient udpClient;
 
     public static void main (String [] args) {
         Scanner kb = new Scanner(System.in);
-        System.out.println("Type 1 for server, 2 for client");
+        System.out.println("Type 1 for server, 2 for tcpClient");
         int selection = Integer.parseInt(kb.nextLine());
 
         try {
@@ -23,35 +25,57 @@ public class Main {
 
                 printExternalIP();
 
-                TCPServer server = new TCPServer(2689);
+                TCPServer tcpServer = new TCPServer(port);
 
                 //Receive 1 byte
-                server.startServer(1);
+                tcpServer.startServer(1);
 
                 //receive 64 bytes
-                server.startServer(64);
+                tcpServer.startServer(64);
 
                 //receive 1024 bytes
-                server.startServer(1024);
+                tcpServer.startServer(1024);
 
 
-                System.out.println("Successfully echoed all responses");
+                System.out.println("Successfully echoed all TCP responses");
+
+                UDPServer udpServer = new UDPServer(port);
+
+                //Receive 1 byte
+                udpServer.startServer(1);
+
+                //Receive 64 bytes
+                udpServer.startServer(64);
+
+                //Receive 1024 bytes
+                udpServer.startServer(1024);
 
 
 
             } else if (selection == 2) {
                 System.out.println("Server ip address");
                 String ip = kb.nextLine();
-                client = new TCPClient(ip, 2689);
+                tcpClient = new TCPClient(ip, port);
 
+
+                System.out.println("TCP RTT's");
                 //send 1 byte
-                sendMessage("RTT for 1 byte:", 1);
+                sendTCPMessage("RTT for 1 byte:", 1);
 
                 //send 64 byte
-                sendMessage("RTT for 64 bytes:", 64);
+                sendTCPMessage("RTT for 64 bytes:", 64);
 
                 //send 1024 byte
-                sendMessage("RTT for 1024 bytes:", 1024);
+                sendTCPMessage("RTT for 1024 bytes:", 1024);
+
+                udpClient = new UDPClient(ip, port);
+
+
+                System.out.println("UDP RTT's");
+                sendUDPMessage("RTT for 1 byte:", 1);
+                sendUDPMessage("RTT for 64 byte:", 64);
+                sendUDPMessage("RTT for 1024 byte:", 1024);
+
 
             }
 
@@ -63,13 +87,21 @@ public class Main {
     }
 
 
-    public static void sendMessage(String outputMessage, int numBytes) throws IOException {
+    public static void sendTCPMessage(String outputMessage, int numBytes) throws IOException {
 
         byte [] message = new byte[numBytes];
         Arrays.fill(message, (byte)1);
-        long RTT = client.sendAndMeasureRTT(message);
+        long RTT = tcpClient.sendAndMeasureRTT(message);
         System.out.println(outputMessage +  " " + convertNanoToMs(RTT) + " microseconds");
 
+    }
+
+    public static void sendUDPMessage(String outputMessage, int numBytes) throws IOException {
+        byte [] message = new byte[numBytes];
+        Arrays.fill(message, (byte)1);
+        long RTT =udpClient.sendAndMeasureRTT(message);
+        System.out.println(outputMessage +  " " + convertNanoToMs(RTT) + " microseconds");
+        
     }
 
 
