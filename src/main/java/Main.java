@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
 
+    static TCPClient client;
+
     public static void main (String [] args) {
         Scanner kb = new Scanner(System.in);
         System.out.println("Type 1 for server, 2 for client");
@@ -40,25 +42,16 @@ public class Main {
             } else if (selection == 2) {
                 System.out.println("Server ip address");
                 String ip = kb.nextLine();
-                TCPClient client = new TCPClient(ip, 2689);
+                client = new TCPClient(ip, 2689);
 
                 //send 1 byte
-                byte [] message_1Byte = new byte[1];
-                Arrays.fill(message_1Byte, (byte)1);
-                long RTT_1Byte = client.sendAndMeasureRTT(message_1Byte);
-                System.out.println("RTT for 1 byte: " + convertNanoToMs(RTT_1Byte) + " microseconds");
+                sendMessage("RTT for 1 byte:", 1);
 
                 //send 64 byte
-                byte [] message_64Byte = new byte[64];
-                Arrays.fill(message_64Byte, (byte)1);
-                long RTT_64Byte = client.sendAndMeasureRTT(message_64Byte);
-                System.out.println("RTT for 64 bytes: " + convertNanoToMs(RTT_64Byte)+ " microseconds");
+                sendMessage("RTT for 64 bytes:", 64);
 
                 //send 1024 byte
-                byte [] message_1024Byte = new byte[1024];
-                Arrays.fill(message_1024Byte, (byte)1);
-                long RTT_1024Byte = client.sendAndMeasureRTT(message_1024Byte);
-                System.out.println("RTT for 1024 bytes: " + convertNanoToMs(RTT_1024Byte)+ " microseconds");
+                sendMessage("RTT for 1024 bytes:", 1024);
 
             }
 
@@ -70,7 +63,14 @@ public class Main {
     }
 
 
+    public static void sendMessage(String outputMessage, int numBytes) throws IOException {
 
+        byte [] message = new byte[numBytes];
+        Arrays.fill(message, (byte)1);
+        long RTT = client.sendAndMeasureRTT(message);
+        System.out.println(outputMessage +  " " + convertNanoToMs(RTT) + " microseconds");
+
+    }
 
 
     public static void printExternalIP() throws UnknownHostException {
