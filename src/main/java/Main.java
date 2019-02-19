@@ -50,6 +50,14 @@ public class Main {
                 //Receive 1024 bytes
                 udpServer.startServer(1024);
 
+                System.out.println("Successfully echoed all UDP responses");
+
+                tcpServer.startServer(1024);
+                tcpServer.startServer(16384);
+                tcpServer.startServer(65536);
+                tcpServer.startServer(262144);
+                tcpServer.startServer(1048576);
+
 
 
             } else if (selection == 2) {
@@ -71,10 +79,23 @@ public class Main {
                 udpClient = new UDPClient(ip, port);
 
 
+                System.out.println("------------");
+
                 System.out.println("UDP RTT's");
                 sendUDPMessage("RTT for 1 byte:", 1);
                 sendUDPMessage("RTT for 64 byte:", 64);
                 sendUDPMessage("RTT for 1024 byte:", 1024);
+
+
+                System.out.println("------------");
+
+                System.out.println("Throughput measurements (TCP)");
+
+                measureTCPThroughput(1024);
+                measureTCPThroughput(16384);
+                measureTCPThroughput(65536);
+                measureTCPThroughput(262144);
+                measureTCPThroughput(1048576);
 
 
             }
@@ -93,6 +114,17 @@ public class Main {
         Arrays.fill(message, (byte)1);
         long RTT = tcpClient.sendAndMeasureRTT(message);
         System.out.println(outputMessage +  " " + convertNanoToMs(RTT) + " microseconds");
+
+    }
+
+    public static void measureTCPThroughput(int numBytes) throws IOException {
+        byte [] message = new byte[numBytes];
+        Arrays.fill(message, (byte)1);
+        long RTT = tcpClient.sendAndMeasureRTT(message);
+        float throughput = (numBytes*8)/((float)(RTT/2));
+
+        System.out.println("Throughput for "+ numBytes + " : " + throughput + "bits/nanosecond");
+
 
     }
 
