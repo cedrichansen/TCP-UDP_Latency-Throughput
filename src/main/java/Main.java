@@ -33,6 +33,8 @@ public class Main {
                 server.startServer(1024);
 
 
+                System.out.println("Successfully echoed all responses");
+
 
 
             } else if (selection == 2) {
@@ -44,19 +46,19 @@ public class Main {
                 byte [] message_1Byte = new byte[1];
                 Arrays.fill(message_1Byte, (byte)1);
                 long RTT_1Byte = client.sendAndMeasureRTT(message_1Byte);
-                System.out.println("RTT for 1 byte: " + convertNanoToMs(RTT_1Byte) +"ms");
+                System.out.println("RTT for 1 byte: " + convertNanoToMs(RTT_1Byte) + " microseconds");
 
                 //send 64 byte
                 byte [] message_64Byte = new byte[64];
                 Arrays.fill(message_64Byte, (byte)1);
                 long RTT_64Byte = client.sendAndMeasureRTT(message_64Byte);
-                System.out.println("RTT for 64 bytes: " + convertNanoToMs(RTT_64Byte)+"ms");
+                System.out.println("RTT for 64 bytes: " + convertNanoToMs(RTT_64Byte)+ " microseconds");
 
                 //send 1024 byte
                 byte [] message_1024Byte = new byte[1024];
                 Arrays.fill(message_1024Byte, (byte)1);
                 long RTT_1024Byte = client.sendAndMeasureRTT(message_1024Byte);
-                System.out.println("RTT for 1024 bytes: " + convertNanoToMs(RTT_1024Byte)+"ms");
+                System.out.println("RTT for 1024 bytes: " + convertNanoToMs(RTT_1024Byte)+ " microseconds");
 
             }
 
@@ -88,7 +90,7 @@ public class Main {
         {
             systemipaddress = "Cannot Execute Properly";
         }
-        System.out.println("Public IP Address: " + systemipaddress +"\n");
+        System.out.println("Public IP Address: " + systemipaddress);
     }
 
 
