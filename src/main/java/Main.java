@@ -126,13 +126,13 @@ public class Main {
         long RTT = tcpClient.sendAndMeasureRTT(message);
         RTT = TimeUnit.SECONDS.convert(RTT, TimeUnit.NANOSECONDS);
 
-        float numMegabits = ((float)numBytes)/(float)numBytesPerMegabit;
-        float numTime = ((float)RTT)/(float)2;
+        double numMegabits = ((double)numBytes)/(double)numBytesPerMegabit;
+        double numTime = ((double)RTT)/2.0;
 
         System.out.println("numMegabytes: " + numMegabits);
         System.out.println("time: " + numTime);
 
-        float throughput = numMegabits/numTime;
+        double throughput = numMegabits/numTime;
 
         System.out.println("Throughput for "+ numBytes + " bytes : " + throughput + " Mb/s");
 
