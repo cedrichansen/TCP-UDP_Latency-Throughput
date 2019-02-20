@@ -12,6 +12,7 @@ public class Main {
 
     final static int port = 2689;
     final static int numBytesPerMegabit = 131072;
+    final static int numNanoSecondsPerSecond = 1000000000;
 
     static TCPClient tcpClient;
     static UDPClient udpClient;
@@ -124,7 +125,7 @@ public class Main {
         byte [] message = new byte[numBytes];
         Arrays.fill(message, (byte)1);
         long RTT = tcpClient.sendAndMeasureRTT(message);
-        RTT = TimeUnit.SECONDS.convert(RTT, TimeUnit.NANOSECONDS);
+        RTT = RTT/numNanoSecondsPerSecond;
         double dblRTT = RTT;
 
         double numMegabits = ((double)numBytes)/(double)numBytesPerMegabit;
