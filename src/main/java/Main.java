@@ -125,9 +125,10 @@ public class Main {
         Arrays.fill(message, (byte)1);
         long RTT = tcpClient.sendAndMeasureRTT(message);
         RTT = TimeUnit.SECONDS.convert(RTT, TimeUnit.NANOSECONDS);
+        double dblRTT = RTT;
 
         double numMegabits = ((double)numBytes)/(double)numBytesPerMegabit;
-        double numTime = ((double)RTT)/2.0;
+        double numTime = dblRTT/2.0;
 
         System.out.println("numMegabytes: " + numMegabits);
         System.out.println("time: " + numTime);
