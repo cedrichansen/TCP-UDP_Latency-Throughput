@@ -121,9 +121,14 @@ public class Main {
         byte [] message = new byte[numBytes];
         Arrays.fill(message, (byte)1);
         long RTT = tcpClient.sendAndMeasureRTT(message);
+
+        //throughout here in bits/nanosecond
         float throughput = (numBytes*8)/((float)(RTT/2));
 
-        System.out.println("Throughput for "+ numBytes + " : " + throughput + "bits/nanosecond");
+        //convert to megabits/sec
+        throughput = throughput*1000;
+
+        System.out.println("Throughput for "+ numBytes + " : " + throughput + "megabits/second");
             
 
     }
