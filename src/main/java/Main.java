@@ -127,7 +127,7 @@ public class Main {
         RTT = TimeUnit.SECONDS.convert(RTT, TimeUnit.NANOSECONDS);
 
         float numMegabytes = (float)(numBytes/numBytesPerMegabyte);
-        float throughput = (float)numMegabytes/(RTT/2);
+        float throughput = (float)numMegabytes/(float)(RTT/2);
 
         System.out.println("Throughput for "+ numBytes + " bytes : " + throughput + "Mb/s");
 
