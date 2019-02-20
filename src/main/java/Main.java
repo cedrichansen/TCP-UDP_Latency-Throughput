@@ -11,7 +11,7 @@ public class Main {
 
 
     final static int port = 2689;
-    final static int numBytesPerMegabyte = 1048576;
+    final static int numBytesPerMegabit = 131072;
 
     static TCPClient tcpClient;
     static UDPClient udpClient;
@@ -126,10 +126,15 @@ public class Main {
         long RTT = tcpClient.sendAndMeasureRTT(message);
         RTT = TimeUnit.SECONDS.convert(RTT, TimeUnit.NANOSECONDS);
 
-        float numMegabytes = ((float)numBytes)/numBytesPerMegabyte;
-        float throughput = numMegabytes/(((float)RTT)/2);
+        float numMegabits = ((float)numBytes)/(float)numBytesPerMegabit;
 
-        System.out.println("Throughput for "+ numBytes + " bytes : " + throughput + "Mb/s");
+        System.out.println("numMegabytes: " + numMegabits);
+
+        float throughput = numMegabits/(((float)RTT)/2);
+
+        System.out.println("time: " + (((float)RTT)/2));
+
+        System.out.println("Throughput for "+ numBytes + " bytes : " + throughput + " Mb/s");
 
 
     }
