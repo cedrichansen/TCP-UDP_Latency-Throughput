@@ -11,6 +11,9 @@ public class Main {
 
 
     final static int port = 2689;
+    final static int numBytesPerMegabit = 131072;
+    final static int numNanoSecondsPerSecond = 1000000000;
+
     static TCPClient tcpClient;
     static UDPClient udpClient;
 
@@ -61,8 +64,9 @@ public class Main {
 
 
             } else if (selection == 2) {
-                System.out.println("Server ip address");
+                System.out.print("Server ip address: ");
                 String ip = kb.nextLine();
+                System.out.println("");
                 tcpClient = new TCPClient(ip, port);
 
 
@@ -121,13 +125,12 @@ public class Main {
         byte [] message = new byte[numBytes];
         Arrays.fill(message, (byte)1);
         long RTT = tcpClient.sendAndMeasureRTT(message);
-
         //throughout here in bits/nanosecond
         float throughput = (numBytes*8)/((float)(RTT/2));
 
         //convert to megabits/sec
         throughput = throughput*1000;
-
+        
         System.out.println("Throughput for "+ numBytes + " : " + throughput + "megabits/second");
             
 
