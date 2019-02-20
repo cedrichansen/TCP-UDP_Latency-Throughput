@@ -124,7 +124,7 @@ public class Main {
         float throughput = (numBytes*8)/((float)(RTT/2));
 
         System.out.println("Throughput for "+ numBytes + " : " + throughput + "bits/nanosecond");
-
+            
 
     }
 
