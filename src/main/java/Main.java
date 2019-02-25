@@ -10,9 +10,22 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
 
+
+    /*
+    -Measure round-trip latency as a function of message size, by sending and receiving (echoing) messages of size 1, 64,
+     and 1024 bytes, using both TCP and UDP. Measure RTTs.
+
+    -Measure throughput by sending TCP messages of size 1K, 16K, 64K, 256K, and 1M bytes in each direction.
+    Measure transfer rates.
+
+    -Measure the interaction between message size and number of messages using TCP and UDP by sending 1MByte of data
+    (with a 1-byte acknowledgment in the reverse direction) using different numbers of messages: 1024 1024Byte messages,
+    vs 2048 512Byte messages, vs 4096 X 256Byte messages.
+
+     */
+
+
     final static int port = 2689;
-    final static int numBytesPerMegabit = 131072;
-    final static int numNanoSecondsPerSecond = 1000000000;
 
     static TCPClient tcpClient;
     static UDPClient udpClient;
@@ -63,6 +76,11 @@ public class Main {
 
 
 
+                tcpServer.echo1MBServer(1024,1024);
+                tcpServer.echo1MBServer(2048, 512);
+                tcpServer.echo1MBServer(4096,256);
+
+
             } else if (selection == 2) {
                 System.out.print("Server ip address: ");
                 String ip = kb.nextLine();
@@ -83,7 +101,7 @@ public class Main {
                 udpClient = new UDPClient(ip, port);
 
 
-                System.out.println("------------");
+                System.out.println("------------------------");
 
                 System.out.println("UDP RTT's");
                 sendUDPMessage("RTT for 1 byte:", 1);
@@ -91,7 +109,7 @@ public class Main {
                 sendUDPMessage("RTT for 1024 byte:", 1024);
 
 
-                System.out.println("------------");
+                System.out.println("------------------------");
 
                 System.out.println("Throughput measurements (TCP)");
 
@@ -101,6 +119,14 @@ public class Main {
                 measureTCPThroughput(262144);
                 measureTCPThroughput(1048576);
 
+                System.out.println("------------------------");
+                System.out.println("Interaction between msg size and number of messages for 1MB");
+                System.out.println("TCP");
+
+                System.out.println("time to send 1024, 1024 byte messages: " + convertNanoToMs(tcpClient.send1MB(1024,1024)) + "Ms");
+                System.out.println("time to send 2048, 512 byte messages: " + convertNanoToMs(tcpClient.send1MB(2048, 512)) + "Ms");
+                System.out.println("time to send 4096, 256 byte messages: " + convertNanoToMs(tcpClient.send1MB(4096,256)) + "Ms");
+                
 
             }
 

@@ -3,6 +3,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.util.Arrays;
 
 public class TCPClient {
 
@@ -38,5 +40,42 @@ public class TCPClient {
         return totalTime;
 
     }
+
+    public long send1MB(int numMessages, int messageSize) throws IOException {
+        byte [] responses = new byte [numMessages];
+        byte [] message = new byte[messageSize];
+        Arrays.fill(message, (byte)1);
+
+        Socket socket = new Socket(ip, port);
+        DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+        DataInputStream input = new DataInputStream(socket.getInputStream());
+
+        long start = System.nanoTime();
+
+
+        try {
+            for (int messages = 0; messages <numMessages; messages++) {
+                output.write(message);
+                responses[messages] = input.readByte();
+            }
+        } catch (SocketTimeoutException e) {
+            System.out.println("Socket timed out");
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long totalTime = System.nanoTime() - start;
+
+        socket.close();
+        output.close();
+        input.close();
+
+        return totalTime;
+
+    }
+
+
+
 
 }
