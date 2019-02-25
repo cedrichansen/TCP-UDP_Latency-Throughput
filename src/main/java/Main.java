@@ -76,11 +76,13 @@ public class Main {
                 tcpServer.startServer(262144);
                 tcpServer.startServer(1048576);
 
-
+                System.out.println("Succesfully calculated throughput for TCP messages ");
 
                 tcpServer.echo1MBServer(1024,1024);
                 tcpServer.echo1MBServer(2048, 512);
                 tcpServer.echo1MBServer(4096,256);
+
+                System.out.println("Successfully calculated time for messages/numMessages TCP");
 
 
             } else if (selection == 2) {
