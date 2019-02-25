@@ -1,5 +1,3 @@
-import javafx.scene.chart.XYChart;
-
 import java.io.IOException;
 import java.net.*;
 import java.util.Arrays;
