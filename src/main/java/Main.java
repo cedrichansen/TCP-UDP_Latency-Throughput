@@ -1,3 +1,5 @@
+import org.omg.CORBA.TIMEOUT;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -123,9 +125,9 @@ public class Main {
                 System.out.println("Interaction between msg size and number of messages for 1MB");
                 System.out.println("TCP");
 
-                System.out.println("time to send 1024, 1024 byte messages: " + convertNanoToMs(tcpClient.send1MB(1024,1024)) + "Ms");
-                System.out.println("time to send 2048, 512 byte messages: " + convertNanoToMs(tcpClient.send1MB(2048, 512)) + "Ms");
-                System.out.println("time to send 4096, 256 byte messages: " + convertNanoToMs(tcpClient.send1MB(4096,256)) + "Ms");
+                System.out.println("time to send 1024, 1024 byte messages: " + convertNanoToSec(tcpClient.send1MB(1024,1024)) + " Seconds");
+                System.out.println("time to send 2048, 512 byte messages: " + convertNanoToSec(tcpClient.send1MB(2048, 512)) + "Seconds");
+                System.out.println("time to send 4096, 256 byte messages: " + convertNanoToSec(tcpClient.send1MB(4096,256)) + "Seconds");
 
 
             }
@@ -194,6 +196,9 @@ public class Main {
 
     public static long convertNanoToMs(long time) {
         return TimeUnit.MICROSECONDS.convert(time, TimeUnit.NANOSECONDS);
+    }
+    public static long convertNanoToSec(long time) {
+        return TimeUnit.SECONDS.convert(time, TimeUnit.NANOSECONDS);
     }
 
 }
