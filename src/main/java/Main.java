@@ -126,7 +126,7 @@ public class Main {
                 System.out.println("time to send 1024, 1024 byte messages: " + convertNanoToMs(tcpClient.send1MB(1024,1024)) + "Ms");
                 System.out.println("time to send 2048, 512 byte messages: " + convertNanoToMs(tcpClient.send1MB(2048, 512)) + "Ms");
                 System.out.println("time to send 4096, 256 byte messages: " + convertNanoToMs(tcpClient.send1MB(4096,256)) + "Ms");
-                
+
 
             }
 

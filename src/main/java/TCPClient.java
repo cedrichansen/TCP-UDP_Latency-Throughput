@@ -71,6 +71,15 @@ public class TCPClient {
         output.close();
         input.close();
 
+
+        //Sleep for a split second so that the server has a chance to restart
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted");
+            e.printStackTrace();
+        }
+
         return totalTime;
 
     }
