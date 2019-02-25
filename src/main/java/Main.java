@@ -82,12 +82,20 @@ public class Main {
 
                 System.out.println("Successfully calculated time for messages/numMessages TCP");
 
+                udpServer.echo1MBServer(1024,1024);
+                udpServer.echo1MBServer(2048, 512);
+                udpServer.echo1MBServer(4096,256);
+
+                System.out.println("Successfully calculated time for messages/numMessages UDP");
+
+
 
             } else if (selection == 2) {
                 System.out.print("Server ip address: ");
                 String ip = kb.nextLine();
                 System.out.println("");
                 tcpClient = new TCPClient(ip, port);
+                udpClient = new UDPClient(ip, port);
 
 
                 System.out.println("TCP RTT's");
@@ -100,10 +108,6 @@ public class Main {
                 //send 1024 byte
                 sendTCPMessage("RTT for 1024 bytes:", 1024);
 
-                udpClient = new UDPClient(ip, port);
-
-
-                System.out.println("------------------------");
 
                 System.out.println("UDP RTT's");
                 sendUDPMessage("RTT for 1 byte:", 1);
@@ -129,6 +133,10 @@ public class Main {
                 System.out.println("time to send 2048, 512 byte messages: " + convertNanoToMilli(tcpClient.send1MB(2048, 512)) + " Milliseconds");
                 System.out.println("time to send 4096, 256 byte messages: " + convertNanoToMilli(tcpClient.send1MB(4096,256)) + " Milliseconds");
 
+                System.out.println("UDP");
+                System.out.println("time to send 1024, 1024 byte messages: " + convertNanoToMilli(udpClient.send1MB(1024,1024)) + " Milliseconds");
+                System.out.println("time to send 2048, 512 byte messages: " + convertNanoToMilli(udpClient.send1MB(2048, 512)) + " Milliseconds");
+                System.out.println("time to send 4096, 256 byte messages: " + convertNanoToMilli(udpClient.send1MB(4096,256)) + " Milliseconds");
 
             }
 
