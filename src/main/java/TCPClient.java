@@ -74,7 +74,7 @@ public class TCPClient {
 
         //Sleep for a split second so that the server has a chance to restart
         try {
-            Thread.sleep(100);
+            Thread.sleep(10);
         } catch (InterruptedException e) {
             System.out.println("Thread interrupted");
             e.printStackTrace();
