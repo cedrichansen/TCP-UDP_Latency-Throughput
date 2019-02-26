@@ -74,7 +74,7 @@ public class Main {
 
                 for (; currentTrial < trials; currentTrial++) {
 
-                    System.out.println("Current trial: " + currentTrial+1);
+                    System.out.println("Current trial: " + (currentTrial+1));
 
                     TCPServer tcpServer = new TCPServer(port);
 
@@ -123,6 +123,8 @@ public class Main {
                 udpClient = new UDPClient(ip, port);
 
                 for (; currentTrial<trials; currentTrial++) {
+
+                    System.out.println("Current trial: " + (currentTrial+1));
 
 
                     System.out.println("Measuring Round Trip Time");
