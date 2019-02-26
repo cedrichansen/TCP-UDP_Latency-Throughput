@@ -40,20 +40,17 @@ public class UDPServer {
 
         byte [] messages = new byte [messageSize];
         DatagramPacket packet = new DatagramPacket(messages, messages.length);
+
+
         socket = new DatagramSocket(port);
 
-
-        InetAddress address = packet.getAddress();
-        int port = packet.getPort();
-
-        DatagramPacket resp = new DatagramPacket(response, response.length, address, port);
-
-
         for (int message = 0; message<numMessages; message++) {
-
             socket.receive(packet);
+            InetAddress address = packet.getAddress();
+            int port = packet.getPort();
+            packet = new DatagramPacket(messages, messages.length);
+            DatagramPacket resp = new DatagramPacket(response, response.length, address, port);
             socket.send(resp);
-
         }
 
         socket.close();
