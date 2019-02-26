@@ -28,7 +28,7 @@ public class Main {
 
 
     final static int port = 2689;
-    final static int trials = 10;
+    final static int trials = 5;
 
 
     static TCPClient tcpClient;
@@ -119,13 +119,14 @@ public class Main {
                 System.out.print("Server ip address: ");
                 String ip = kb.nextLine();
                 System.out.println("");
-                tcpClient = new TCPClient(ip, port);
-                udpClient = new UDPClient(ip, port);
+
 
                 for (; currentTrial<trials; currentTrial++) {
 
                     System.out.println("Current trial: " + (currentTrial+1));
 
+                    tcpClient = new TCPClient(ip, port);
+                    udpClient = new UDPClient(ip, port);
 
                     System.out.println("Measuring Round Trip Time");
 
