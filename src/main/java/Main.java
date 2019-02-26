@@ -12,6 +12,8 @@ public class Main {
 
 
     /*
+    Assignment instructions
+
     -Measure round-trip latency as a function of message size, by sending and receiving (echoing) messages of size 1, 64,
      and 1024 bytes, using both TCP and UDP. Measure RTTs.
 
@@ -43,27 +45,15 @@ public class Main {
 
                 TCPServer tcpServer = new TCPServer(port);
 
-                //Receive 1 byte
                 tcpServer.startServer(1);
-
-                //receive 64 bytes
                 tcpServer.startServer(64);
-
-                //receive 1024 bytes
                 tcpServer.startServer(1024);
-
 
                 System.out.println("Successfully echoed all TCP responses");
 
                 UDPServer udpServer = new UDPServer(port);
-
-                //Receive 1 byte
                 udpServer.startServer(1);
-
-                //Receive 64 bytes
                 udpServer.startServer(64);
-
-                //Receive 1024 bytes
                 udpServer.startServer(1024);
 
                 System.out.println("Successfully echoed all UDP responses");
@@ -178,12 +168,14 @@ public class Main {
         long RTT = tcpClient.sendAndMeasureRTT(message);
 
         //throughout here in bits/nanosecond
-        float throughput = (numBytes*8)/((float)(RTT/2));
+        int numBits = numBytes*8;
+        double time = (double)RTT/2;
+        double throughput = numBits/time;
 
         //convert to megabits/sec
-        throughput = throughput*1000;
+        float throughputMBPS = (float)throughput*1000;
         
-        System.out.println("Throughput for "+ numBytes + " : " + throughput + " Mbps");
+        System.out.println("Throughput for " + numBytes + " : " + throughputMBPS + " Mbps");
             
 
     }
