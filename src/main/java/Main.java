@@ -254,15 +254,13 @@ public class Main {
 
         //throughout here in bits/nanosecond
         int numBits = numBytes*8;
-        double time = (double)RTT/2;
-        double throughput = numBits/time;
+        double throughput = numBits/RTT;
 
         //convert to megabits/sec
         float throughputMBPS = (float)throughput*1000;
         
         System.out.println("Throughput for " + numBytes + " : " + throughputMBPS + " Mbps");
         return throughputMBPS;
-            
 
     }
 
