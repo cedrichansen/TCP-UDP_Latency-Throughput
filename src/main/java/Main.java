@@ -253,7 +253,7 @@ public class Main {
         long RTT = tcpClient.sendAndMeasureRTT(message);
 
         //throughout here in bits/nanosecond
-        int numBits = numBytes*8;
+        int numBits = numBytes* 8 * 2;
         double throughput = numBits/RTT;
 
         //convert to megabits/sec
