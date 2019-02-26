@@ -7,7 +7,9 @@ This project measures several network related things. The assignment prompt was 
 The program can be run through any standard IDE, or can be compiled using
 
 mvn clean
+
 mvn package
+
 java -cp target/csc445hw01-1.0-SNAPSHOT.jar Main
 
 
