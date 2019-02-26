@@ -98,7 +98,9 @@ public class Main {
                 udpClient = new UDPClient(ip, port);
 
 
-                System.out.println("TCP RTT's");
+                System.out.println("Measuring Round Trip Time");
+
+                System.out.println("---TCP RTT's---");
                 //send 1 byte
                 sendTCPMessage("RTT for 1 byte:", 1);
 
@@ -109,7 +111,7 @@ public class Main {
                 sendTCPMessage("RTT for 1024 bytes:", 1024);
 
 
-                System.out.println("UDP RTT's");
+                System.out.println("---UDP RTT's---");
                 sendUDPMessage("RTT for 1 byte:", 1);
                 sendUDPMessage("RTT for 64 byte:", 64);
                 sendUDPMessage("RTT for 1024 byte:", 1024);
@@ -117,7 +119,7 @@ public class Main {
 
                 System.out.println("------------------------");
 
-                System.out.println("Throughput measurements (TCP)");
+                System.out.println("Measuring throughput (TCP only)");
 
                 measureTCPThroughput(1024);
                 measureTCPThroughput(16384);
@@ -126,17 +128,19 @@ public class Main {
                 measureTCPThroughput(1048576);
 
                 System.out.println("------------------------");
-                System.out.println("Interaction between msg size and number of messages for 1MB");
-                System.out.println("TCP");
 
-                System.out.println("time to send 1024, 1024 byte messages: " + convertNanoToMilli(tcpClient.send1MB(1024,1024)) + " Milliseconds");
-                System.out.println("time to send 2048, 512 byte messages: " + convertNanoToMilli(tcpClient.send1MB(2048, 512)) + " Milliseconds");
-                System.out.println("time to send 4096, 256 byte messages: " + convertNanoToMilli(tcpClient.send1MB(4096,256)) + " Milliseconds");
+                System.out.println("Measuring interaction between msg size and number of messages for 1MB");
 
-                System.out.println("UDP");
-                System.out.println("time to send 1024, 1024 byte messages: " + convertNanoToMilli(udpClient.send1MB(1024,1024)) + " Milliseconds");
-                System.out.println("time to send 2048, 512 byte messages: " + convertNanoToMilli(udpClient.send1MB(2048, 512)) + " Milliseconds");
-                System.out.println("time to send 4096, 256 byte messages: " + convertNanoToMilli(udpClient.send1MB(4096,256)) + " Milliseconds");
+                System.out.println("---TCP---");
+
+                measureInteractionTCP(1024,1024);
+                measureInteractionTCP(2048, 512);
+                measureInteractionTCP(4096,256);
+
+                System.out.println("---UDP---");
+                measureInteractionUDP(1024, 1024);
+                measureInteractionUDP(2048,512);
+                measureInteractionUDP(4096, 256);
 
             }
 
@@ -145,6 +149,17 @@ public class Main {
         }
 
 
+    }
+
+
+    public static void measureInteractionTCP(int numMessages, int messageSize) throws IOException {
+
+        System.out.println("Time to send " + numMessages + ", " + messageSize + " byte packets: " + convertNanoToMilli(tcpClient.send1MB(numMessages, messageSize)) + " Milliseconds");
+
+    }
+
+    public static void measureInteractionUDP(int numMessages, int messageSize) throws IOException {
+        System.out.println("Time to send " + numMessages + ", " + messageSize + " byte packets: " + convertNanoToMilli(udpClient.send1MB(numMessages, messageSize)) + " Milliseconds");
     }
 
 
@@ -161,13 +176,14 @@ public class Main {
         byte [] message = new byte[numBytes];
         Arrays.fill(message, (byte)1);
         long RTT = tcpClient.sendAndMeasureRTT(message);
+
         //throughout here in bits/nanosecond
         float throughput = (numBytes*8)/((float)(RTT/2));
 
         //convert to megabits/sec
         throughput = throughput*1000;
         
-        System.out.println("Throughput for "+ numBytes + " : " + throughput + "megabits/second");
+        System.out.println("Throughput for "+ numBytes + " : " + throughput + " Mbps");
             
 
     }
